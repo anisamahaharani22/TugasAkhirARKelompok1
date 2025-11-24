@@ -9,9 +9,41 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+    <style>
+      /* Button Mulai */
+      #btn-mulai {
+        position: absolute;
+        z-index: 9999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 16px 32px;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: rgb(255, 0, 123);
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      #btn-mulai:hover {
+        transform: translate(-50%, -50%) scale(1.08);
+        box-shadow: 0 6px 16px rgba(255, 0, 123, 0.6);
+      }
+
+      #btn-mulai:active {
+        transform: translate(-50%, -50%) scale(0.92);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      }
+    </style>
   </head>
 
   <body style="margin: 0; overflow: hidden">
+    <button id="btn-mulai">MULAI</button>
+
     <a-scene
       embedded
       vr-mode-ui="enabled: false"
@@ -26,8 +58,13 @@
 
       <!-- Asset -->
       <a-assets>
-        <a-asset-item id="apel" src="model/Apel.glb"></a-asset-item>
+        <audio id="welcome-audio" src="audio/Selamat Datang.wav"></audio>
+
+        <a-asset-item id="apel" src="model/apel.glb"></a-asset-item>
         <audio id="apelaudio" src="audio/Apel.wav"></audio>
+
+        <a-asset-item id="alpukat" src="model/alpukat.glb"></a-asset-item>
+        <audio id="alpukataudio" src="audio/Alpukat.wav"></audio>
       </a-assets>
 
       <!-- Marker Apel -->
@@ -42,9 +79,27 @@
           gltf-model="#apel"
           position="0 0 0"
           rotation="30 180 0"
-          scale="5 5 5"
+          scale="9.5 9.5 9.5"
           animation-mixer
           sound="src: #apelaudio; autoplay: false; loop: false"
+        ></a-entity>
+      </a-marker>
+
+      <!-- Marker Alpukat -->
+      <a-marker
+        id="marker-alpukat"
+        class="fruit-marker"
+        type="pattern"
+        url="marker/Alpukat.patt"
+      >
+        <a-entity
+          id="alpukat-entity"
+          gltf-model="#alpukat"
+          position="0 0 0"
+          rotation="30 180 0"
+          scale="9.5 9.5 9.5"
+          animation-mixer
+          sound="src: #alpukataudio; autoplay: false; loop: false"
         ></a-entity>
       </a-marker>
 
@@ -52,21 +107,36 @@
       <a-entity camera></a-entity>
     </a-scene>
 
-    <!-- Audio Buah -->
+    <!-- Audio Buah dan Button Mulai -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const markerApel = document.querySelector("#marker-apel");
-        const apelEntity = document.querySelector("#apel-entity");
+        const btnMulai = document.getElementById("btn-mulai");
+        const welcomeAudio = document.getElementById("welcome-audio");
 
-        if (markerApel && apelEntity) {
-          markerApel.addEventListener("markerFound", () => {
-            apelEntity.components.sound.playSound();
-          });
-
-          markerApel.addEventListener("markerLost", () => {
-            apelEntity.components.sound.stopSound();
+        if (btnMulai && welcomeAudio) {
+          btnMulai.addEventListener("click", function () {
+            welcomeAudio.play();
+            btnMulai.style.display = "none";
           });
         }
+
+        const fruitMarkers = document.querySelectorAll(".fruit-marker");
+
+        fruitMarkers.forEach((marker) => {
+          marker.addEventListener("markerFound", () => {
+            const entity = marker.querySelector("[sound]");
+            if (entity && entity.components.sound) {
+              entity.components.sound.playSound();
+            }
+          });
+
+          marker.addEventListener("markerLost", () => {
+            const entity = marker.querySelector("[sound]");
+            if (entity && entity.components.sound) {
+              entity.components.sound.stopSound();
+            }
+          });
+        });
       });
     </script>
   </body>
