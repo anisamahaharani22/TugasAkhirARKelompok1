@@ -65,6 +65,12 @@
 
         <a-asset-item id="alpukat" src="model/alpukat.glb"></a-asset-item>
         <audio id="alpukataudio" src="audio/Alpukat.wav"></audio>
+
+        <a-asset-item id="pisang" src="model/pisang.glb"></a-asset-item>
+        <audio id="pisangaudio" src="audio/Pisang.wav"></audio>
+
+        <a-asset-item id="labu" src="model/labu.glb"></a-asset-item>
+        <audio id="labuaudio" src="audio/Labu.wav"></audio>
       </a-assets>
 
       <!-- Marker Apel -->
@@ -103,6 +109,42 @@
         ></a-entity>
       </a-marker>
 
+      <!-- Marker Pisang -->
+      <a-marker
+        id="marker-pisang"
+        class="fruit-marker"
+        type="pattern"
+        url="marker/Pisang.patt"
+      >
+        <a-entity
+          id="pisang-entity"
+          gltf-model="#pisang"
+          position="0 0 0"
+          rotation="30 180 0"
+          scale="0.2 0.2 0.2"
+          animation-mixer
+          sound="src: #pisangaudio; autoplay: false; loop: false"
+        ></a-entity>
+      </a-marker>
+
+      <!-- Marker Labu -->
+      <a-marker
+        id="marker-labu"
+        class="fruit-marker"
+        type="pattern"
+        url="marker/Labu.patt"
+      >
+        <a-entity
+          id="labu-entity"
+          gltf-model="#labu"
+          position="0 0 0"
+          rotation="30 180 0"
+          scale="5 5 5"
+          animation-mixer
+          sound="src: #labuaudio; autoplay: false; loop: false"
+        ></a-entity>
+      </a-marker>
+
       <!-- Kamera -->
       <a-entity camera></a-entity>
     </a-scene>
@@ -126,6 +168,8 @@
           marker.addEventListener("markerFound", () => {
             const entity = marker.querySelector("[sound]");
             if (entity && entity.components.sound) {
+              welcomeAudio.pause();
+              welcomeAudio.currentTime = 0;
               entity.components.sound.playSound();
             }
           });
