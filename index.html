@@ -80,6 +80,16 @@
 
         <a-asset-item id="nanas" src="model/nanas.glb"></a-asset-item>
         <audio id="nanasaudio" src="audio/Nanas.wav"></audio>
+
+        <a-asset-item id="tomat" src="model/tomat.glb"></a-asset-item>
+        <audio id="tomataudio" src="audio/Tomat.wav"></audio>
+
+        <a-asset-item id="semangka" src="model/semangka.glb"></a-asset-item>
+        <audio id="semangkaaudio" src="audio/Semangka.wav"></audio>
+
+        <a-asset-item id="anggur" src="model/anggur2.glb"></a-asset-item>
+        <audio id="angguraudio" src="audio/Anggur.wav"></audio>
+
       </a-assets>
 
       <!-- Marker Apel -->
@@ -207,7 +217,61 @@
           sound="src: #nanasaudio; autoplay: false; loop: false"
         ></a-entity>
       </a-marker>
+
+      <!-- Marker Tomat -->
+      <a-marker
+        id="marker-tomat"
+        class="fruit-marker"
+        type="pattern"
+        url="marker/tomat2.patt"
+      >
+        <a-entity
+          id="tomat-entity"
+          gltf-model="#tomat"
+          position="0 0 0"
+          rotation="30 200 0"
+          scale="15 15 15"
+          animation-mixer
+          sound="src: #tomataudio; autoplay: false; loop: false"
+        ></a-entity>
+      </a-marker>
+
+       <!-- Marker Semangka -->
+      <a-marker
+        id="marker-semangka"
+        class="fruit-marker"
+        type="pattern"
+        url="marker/Semangka.patt"
+      >
+        <a-entity
+          id="semangka-entity"
+          gltf-model="#semangka"
+          position="0 0 0"
+          rotation="30 180 0"
+          scale="5 5 5"
+          animation-mixer
+          sound="src: #semangkaaudio; autoplay: false; loop: false"
+        ></a-entity>
+      </a-marker>
       
+      <!-- Marker Anggur -->
+      <a-marker
+        id="marker-anggur"
+        class="fruit-marker"
+        type="pattern"
+        url="marker/anggur2.patt"
+      >
+        <a-entity
+          id="anggur-entity"
+          gltf-model="#anggur"
+          position="0 0 0"
+          rotation="30 180 0"
+          scale="0.0015 0.0015 0.0015"
+          animation-mixer
+          sound="src: #angguraudio; autoplay: false; loop: false"
+        ></a-entity>
+      </a-marker>
+
       <!-- Kamera -->
       <a-entity camera></a-entity>
     </a-scene>
